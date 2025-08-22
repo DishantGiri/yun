@@ -364,23 +364,34 @@
             max-width: 500px;
         }
         
-        .file-input {
-            display: none;
+        .url-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
         }
         
-        .file-label {
+        .url-input:focus {
+            border-color: #8a4f7d;
+        }
+        
+        .url-submit-btn {
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
+            border: none;
             padding: 12px 24px;
             border-radius: 50px;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            margin-top: 10px;
         }
         
-        .file-label:hover {
+        .url-submit-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
@@ -428,8 +439,52 @@
             text-align: center;
         }
         
+        .video-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .video-player {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+        }
+        
         .hidden {
             display: none;
+        }
+        
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: #8a4f7d;
+            color: white;
+        }
+        
+        .content-area {
+            display: none;
+        }
+        
+        .content-area.active {
+            display: block;
         }
     </style>
 </head>
@@ -476,12 +531,13 @@
         <section id="letter">
             <h2>My Love Letter to You</h2>
             <div class="love-letter">
-                <p>My dearest,</p>
+                <p>My dear Hri,</p>
                 <p>Even though we haven't met in person yet, I feel like I've known you forever. Our connection transcends physical distance, and every conversation with you makes me fall more in love with the amazing person you are.</p>
                 <p>I cherish our late-night talks, our shared laughter, and the way we can be completely ourselves with each other. You've brought so much joy into my life, and I'm incredibly grateful for you.</p>
                 <p>I know the distance is challenging, but it makes me appreciate our connection even more. I dream of the day when I can finally hold your hand, look into your eyes, and create memories together in person.</p>
                 <p>Until then, know that you occupy my thoughts and my heart.</p>
                 <p>With all my love,</p>
+                <p>Your stupid Dishant</p>
             </div>
         </section>
         
@@ -517,43 +573,64 @@
         </section>
         
         <section id="playlist">
-            <h2>Our Love Playlist</h2>
+            <h2>Our YouTube Playlist</h2>
             
-            <div class="upload-container">
-                <label for="musicUpload" class="file-label">
-                    <i class="fas fa-upload"></i> Upload Our Song
-                </label>
-                <input type="file" id="musicUpload" class="file-input" accept="audio/*" />
-                
-                <div id="nowPlaying" class="now-playing hidden">
-                    <i class="fas fa-music"></i> Now Playing: <span id="currentSongName"></span>
+            <div class="tab-container">
+                <button class="tab active" data-tab="music">Music</button>
+                <button class="tab" data-tab="video">Video</button>
+            </div>
+            
+            <div class="content-area active" id="music-content">
+                <div class="upload-container">
+                    <input type="text" id="youtubeUrl" class="url-input" placeholder="Paste YouTube music URL here">
+                    <button id="addMusicBtn" class="url-submit-btn">Add Music</button>
+                    
+                    <div id="nowPlaying" class="now-playing hidden">
+                        <i class="fas fa-music"></i> Now Playing: <span id="currentSongName"></span>
+                    </div>
+                    
+                    <div id="songList" class="song-list hidden">
+                        <h3>Our Songs</h3>
+                        <div id="songsContainer"></div>
+                    </div>
                 </div>
                 
-                <div id="songList" class="song-list hidden">
-                    <h3>Our Songs</h3>
-                    <div id="songsContainer"></div>
+                <div class="music-player">
+                    <button class="music-btn" id="playButton">
+                        <i class="fas fa-play"></i> Play
+                    </button>
+                    <button class="music-btn" id="pauseButton">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button class="music-btn" id="stopButton">
+                        <i class="fas fa-stop"></i> Stop
+                    </button>
                 </div>
             </div>
             
-            <div class="music-player">
-                <button class="music-btn" id="playButton">
-                    <i class="fas fa-play"></i> Play
-                </button>
-                <button class="music-btn" id="pauseButton">
-                    <i class="fas fa-pause"></i> Pause
-                </button>
-                <button class="music-btn" id="stopButton">
-                    <i class="fas fa-stop"></i> Stop
-                </button>
+            <div class="content-area" id="video-content">
+                <div class="upload-container">
+                    <input type="text" id="youtubeVideoUrl" class="url-input" placeholder="Paste YouTube video URL here">
+                    <button id="addVideoBtn" class="url-submit-btn">Load Video</button>
+                </div>
+                
+                <div class="video-container">
+                    <div id="videoPlayer" class="video-player hidden">
+                        <!-- YouTube iframe will be inserted here -->
+                    </div>
+                </div>
             </div>
         </section>
     </div>
     
     <footer>
-        <p>Made with ❤️ for the most amazing online girlfriend in the world</p>
+        <p>Made with ❤️ for the most amazing girlfriend in the world</p>
         <p class="signature">Waiting for the day we meet</p>
     </footer>
 
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    
     <script>
         // Create floating hearts in background
         function createHearts() {
@@ -598,10 +675,19 @@
             }, 10000);
         }
         
-        // Music player functionality
-        let audio = null;
+        // YouTube player functionality
+        let player;
         let currentSong = null;
         let songs = [];
+        let currentVideoId = null;
+        let isPlayerReady = false;
+        
+        // Extract YouTube ID from URL
+        function extractYoutubeId(url) {
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[7].length === 11) ? match[7] : null;
+        }
         
         // Load songs from localStorage
         function loadSongs() {
@@ -630,7 +716,7 @@
                     songItem.classList.add('song-item');
                     
                     songItem.innerHTML = `
-                        <span>${song.name}</span>
+                        <span>${song.title}</span>
                         <button class="song-play-btn" data-index="${index}">
                             <i class="fas fa-play"></i>
                         </button>
@@ -653,100 +739,182 @@
         
         // Play a specific song
         function playSong(index) {
-            if (audio) {
-                audio.pause();
+            if (!isPlayerReady) {
+                alert("Player is not ready yet. Please wait a moment.");
+                return;
             }
             
             currentSong = index;
             const song = songs[index];
             
-            // Create a blob URL from the stored data
-            const byteCharacters = atob(song.data);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: song.type });
-            const url = URL.createObjectURL(blob);
-            
-            audio = new Audio(url);
-            audio.play();
+            // Load the YouTube video
+            player.loadVideoById(song.videoId);
             
             // Update UI
             document.getElementById('playButton').innerHTML = '<i class="fas fa-pause"></i> Pause';
-            document.getElementById('currentSongName').textContent = song.name;
+            document.getElementById('currentSongName').textContent = song.title;
             document.getElementById('nowPlaying').classList.remove('hidden');
-            
-            // When song ends
-            audio.onended = function() {
-                document.getElementById('playButton').innerHTML = '<i class="fas fa-play"></i> Play';
-                document.getElementById('nowPlaying').classList.add('hidden');
-            };
         }
         
         // Pause the current song
         function pauseSong() {
-            if (audio && !audio.paused) {
-                audio.pause();
+            if (player && isPlayerReady) {
+                player.pauseVideo();
                 document.getElementById('playButton').innerHTML = '<i class="fas fa-play"></i> Play';
             }
         }
         
         // Resume the current song
         function resumeSong() {
-            if (audio && audio.paused) {
-                audio.play();
+            if (player && isPlayerReady) {
+                player.playVideo();
                 document.getElementById('playButton').innerHTML = '<i class="fas fa-pause"></i> Pause';
             }
         }
         
         // Stop the current song
         function stopSong() {
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
+            if (player && isPlayerReady) {
+                player.stopVideo();
                 document.getElementById('playButton').innerHTML = '<i class="fas fa-play"></i> Play';
                 document.getElementById('nowPlaying').classList.add('hidden');
             }
         }
         
-        // Handle file upload
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file || !file.type.includes('audio')) {
-                alert('Please select a valid audio file.');
+        // Load YouTube video player
+        function loadYouTubeVideoPlayer(videoId) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.classList.remove('hidden');
+            
+            // Clear previous content
+            videoPlayer.innerHTML = '';
+            
+            // Create iframe
+            const iframe = document.createElement('iframe');
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            
+            videoPlayer.appendChild(iframe);
+            currentVideoId = videoId;
+        }
+        
+        // Handle player state changes
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                document.getElementById('playButton').innerHTML = '<i class="fas fa-play"></i> Play';
+                document.getElementById('nowPlaying').classList.add('hidden');
+            }
+        }
+        
+        // Handle music URL submission
+        function handleMusicUrl() {
+            const url = document.getElementById('youtubeUrl').value.trim();
+            if (!url) {
+                alert('Please enter a YouTube URL.');
                 return;
             }
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Convert array buffer to base64 string
-                const bytes = new Uint8Array(e.target.result);
-                let binary = '';
-                for (let i = 0; i < bytes.byteLength; i++) {
-                    binary += String.fromCharCode(bytes[i]);
-                }
-                const base64Data = btoa(binary);
-                
-                // Add to songs array
-                songs.push({
-                    name: file.name,
-                    type: file.type,
-                    data: base64Data
-                });
-                
-                // Save and update UI
-                saveSongs();
-                renderSongList();
-                
-                // Play the song if it's the first one
-                if (songs.length === 1) {
-                    playSong(0);
-                }
-            };
+            const videoId = extractYoutubeId(url);
+            if (!videoId) {
+                alert('Please enter a valid YouTube URL.');
+                return;
+            }
             
-            reader.readAsArrayBuffer(file);
+            // In a real implementation, you would fetch the video title from YouTube API
+            // For simplicity, we'll use a placeholder
+            const title = "YouTube Song " + (songs.length + 1);
+            
+            // Add to songs array
+            songs.push({
+                title: title,
+                videoId: videoId,
+                url: url
+            });
+            
+            // Save and update UI
+            saveSongs();
+            renderSongList();
+            
+            // Clear input
+            document.getElementById('youtubeUrl').value = '';
+            
+            // Play the song if it's the first one
+            if (songs.length === 1 && isPlayerReady) {
+                playSong(0);
+            }
+        }
+        
+        // Handle video URL submission
+        function handleVideoUrl() {
+            const url = document.getElementById('youtubeVideoUrl').value.trim();
+            if (!url) {
+                alert('Please enter a YouTube URL.');
+                return;
+            }
+            
+            const videoId = extractYoutubeId(url);
+            if (!videoId) {
+                alert('Please enter a valid YouTube URL.');
+                return;
+            }
+            
+            // Load the video
+            loadYouTubeVideoPlayer(videoId);
+            
+            // Clear input
+            document.getElementById('youtubeVideoUrl').value = '';
+        }
+        
+        // Tab switching functionality
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const contentAreas = document.querySelectorAll('.content-area');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    contentAreas.forEach(area => {
+                        if (area.id === `${tabId}-content`) {
+                            area.classList.add('active');
+                        } else {
+                            area.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Initialize YouTube Player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 0,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        
+        function onPlayerReady(event) {
+            isPlayerReady = true;
+            console.log("YouTube player is ready");
         }
         
         // Initialize the page
@@ -754,25 +922,52 @@
             createHearts();
             createAnimatedHearts();
             loadSongs();
+            setupTabs();
+            
+            // Create a hidden player div for YouTube
+            const playerDiv = document.createElement('div');
+            playerDiv.id = 'player';
+            playerDiv.classList.add('hidden');
+            document.body.appendChild(playerDiv);
             
             // Setup music buttons
             document.getElementById('playButton').addEventListener('click', function() {
-                if (audio && audio.paused) {
-                    resumeSong();
-                } else if (audio && !audio.paused) {
+                if (!isPlayerReady) {
+                    alert("Player is not ready yet. Please wait a moment.");
+                    return;
+                }
+                
+                const playerState = player.getPlayerState();
+                if (playerState === YT.PlayerState.PLAYING) {
                     pauseSong();
+                } else if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.CUED) {
+                    resumeSong();
                 } else if (songs.length > 0) {
-                    playSong(0);
+                    playSong(currentSong !== null ? currentSong : 0);
                 } else {
-                    alert('Please upload a song first.');
+                    alert('Please add a song first.');
                 }
             });
             
             document.getElementById('pauseButton').addEventListener('click', pauseSong);
             document.getElementById('stopButton').addEventListener('click', stopSong);
             
-            // Setup file upload
-            document.getElementById('musicUpload').addEventListener('change', handleFileUpload);
+            // Setup URL submission buttons
+            document.getElementById('addMusicBtn').addEventListener('click', handleMusicUrl);
+            document.getElementById('addVideoBtn').addEventListener('click', handleVideoUrl);
+            
+            // Allow pressing Enter to submit URLs
+            document.getElementById('youtubeUrl').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleMusicUrl();
+                }
+            });
+            
+            document.getElementById('youtubeVideoUrl').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleVideoUrl();
+                }
+            });
             
             // Add click effects to memory cards
             const memoryCards = document.querySelectorAll('.memory-card');
